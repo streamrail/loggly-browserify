@@ -1,11 +1,13 @@
 {
   "name": "loggly-browserify",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "homepage": "https://github.com/streamrail/loggly-browserify",
+  "description": "CommonJS Loggly module that can be used with browserify",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "repository": {
+    "type": "git",
+    "url": "git://github.com/streamrail/loggly-browserify.git"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "orcaman",
+  "license": "MIT"
 }
