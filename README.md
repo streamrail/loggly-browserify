@@ -12,7 +12,7 @@ see test, or follow this example:
 var LogglyTracker = require('loggly-browserify');
 
 function ClassWithLogger(opts) {
-	var _loggly = new LogglyTracker('bf60d26a-5f86-49c3-9f00-5fe953a9b107');
+	var _loggly = new LogglyTracker('<your_loggly_key>');
 
 	_self.log = function(params) {
 		_loggly.push(data);
