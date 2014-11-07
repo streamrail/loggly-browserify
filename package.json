@@ -1,6 +1,6 @@
 {
   "name": "loggly-browserify",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/streamrail/loggly-browserify",
   "description": "CommonJS Loggly module that can be used with browserify",
   "main": "index.js",

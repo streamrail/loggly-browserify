@@ -118,7 +118,7 @@ module.exports = LogglyTracker;
 },{}],2:[function(require,module,exports){
 var LogglyTracker = require('../index.js');
 
-var tracker = new LogglyTracker('bbed58d4-37f4-4544-8096-499819ec7ba1');
+var tracker = new LogglyTracker('<your_loggly_key>');
 
 window.pushLog = function() {
 	tracker.push({

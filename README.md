@@ -7,13 +7,19 @@ This module is a CommonJS Loggly module that can be used with browserify.
 see test, or follow this example:
 
 ```
-var LogglyTracker = require('../index.js');
+'use strict';
 
-var tracker = new LogglyTracker('<your_loggly_key>');
+var LogglyTracker = require('loggly-browserify');
 
-tracker.push({
-		test: document.getElementById('log-json').value
-});
+function ClassWithLogger(opts) {
+	var _loggly = new LogglyTracker('bf60d26a-5f86-49c3-9f00-5fe953a9b107');
+
+	_self.log = function(params) {
+		_loggly.push(data);
+	};
+}
+
+module.exports = ClassWithLogger;
 ```
 
 ## license 
