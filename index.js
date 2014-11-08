@@ -13,15 +13,12 @@ function uuid() {
     });
 }
 
-function LogglyTracker(key) {
-    setKey(this, key);
+function LogglyTracker(key, sessionID) {
+    this.key = key;
+    this.setSession(sessionID);
+    setInputUrl(this);
 }
 
-function setKey(tracker, key) {
-    tracker.key = key;
-    tracker.setSession();
-    setInputUrl(tracker);
-}
 
 function setInputUrl(tracker) {
     tracker.inputUrl = LOGGLY_INPUT_PREFIX + (tracker.logglyCollectorDomain || LOGGLY_COLLECTOR_DOMAIN) + '/inputs/' + tracker.key + LOGGLY_INPUT_SUFFIX;
