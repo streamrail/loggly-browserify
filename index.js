@@ -13,12 +13,40 @@ function uuid() {
     });
 }
 
-function LogglyTracker(key, sessionID) {
-    this.key = key;
-    this.setSession(sessionID);
-    setInputUrl(this);
+function LogglyTracker() {
+    this.key = false;
+    this.sendConsoleErrors = false;
 }
 
+function setKey(tracker, key) {
+    tracker.key = key;
+    tracker.setSession();
+    setInputUrl(tracker);
+}
+
+function setSendConsoleError(tracker, sendConsoleErrors) {
+    tracker.sendConsoleErrors = sendConsoleErrors;
+
+    if (tracker.sendConsoleErrors === true) {
+        var _onerror = window.onerror;
+        //send console error messages to Loggly
+        window.onerror = function(msg, url, line, col) {
+            tracker.push({
+                category: 'BrowserJsException',
+                exception: {
+                    message: msg,
+                    url: url,
+                    lineno: line,
+                    colno: col,
+                }
+            });
+
+            if (_onerror && typeof _onerror === 'function') {
+                _onerror.apply(window, arguments);
+            }
+        };
+    }
+}
 
 function setInputUrl(tracker) {
     tracker.inputUrl = LOGGLY_INPUT_PREFIX + (tracker.logglyCollectorDomain || LOGGLY_COLLECTOR_DOMAIN) + '/inputs/' + tracker.key + LOGGLY_INPUT_SUFFIX;
@@ -46,34 +74,38 @@ LogglyTracker.prototype = {
 
         var self = this;
 
-        setTimeout(function() {
-            if (type === 'string') {
-                data = {
-                    'text': data
-                };
-            } else {
-                if (data.logglyCollectorDomain) {
-                    self.logglyCollectorDomain = data.logglyCollectorDomain;
-                    return;
-                }
 
-                if (data.logglyKey) {
-                    setKey(self, data.logglyKey);
-                    return;
-                }
-
-                if (data.session_id) {
-                    self.setSession(data.session_id);
-                    return;
-                }
-            }
-
-            if (!self.key) {
+        if (type === 'string') {
+            data = {
+                'text': data
+            };
+        } else {
+            if (data.logglyCollectorDomain) {
+                self.logglyCollectorDomain = data.logglyCollectorDomain;
                 return;
             }
 
-            self.track(data);
-        }, 0);
+            if (data.sendConsoleErrors !== undefined) {
+                setSendConsoleError(self, data.sendConsoleErrors);
+            }
+
+            if (data.logglyKey) {
+                setKey(self, data.logglyKey);
+                return;
+            }
+
+            if (data.session_id) {
+                self.setSession(data.session_id);
+                return;
+            }
+        }
+
+        if (!self.key) {
+            return;
+        }
+
+        self.track(data);
+
 
     },
     track: function(data) {
@@ -110,4 +142,18 @@ LogglyTracker.prototype = {
     }
 };
 
-module.exports = LogglyTracker;
+var existing = window._LTracker;
+
+var tracker = new LogglyTracker();
+
+if (existing && existing.length) {
+    var i = 0,
+        eLength = existing.length;
+    for (i = 0; i < eLength; i++) {
+        tracker.push(existing[i]);
+    }
+}
+
+window._LTracker = tracker; // default global tracker
+
+module.exports = window.LogglyTracker = LogglyTracker; // if others want to instantiate more than one tracker
