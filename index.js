@@ -114,9 +114,9 @@ LogglyTracker.prototype = {
             data.tags = 'http';
         }
         try {
-            var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance 
-            xmlhttp.open('POST', this.inputUrl + '/tags/' + data.tags);
-            xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', 'https://logs-01.loggly.com/inputs/' + this.key + '/tag/'+data.tags+'/__utmsr');
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xmlhttp.send(JSON.stringify(data));
         } catch (ex) {
             if (window && window.console && typeof window.console.log === 'function') {
