@@ -1,6 +1,5 @@
 var LOGGLY_INPUT_PREFIX = 'http' + (('https:' === document.location.protocol ? 's' : '')) + '://',
     LOGGLY_COLLECTOR_DOMAIN = 'logs-01.loggly.com',
-    LOGGLY_INPUT_SUFFIX = '.gif?',
     LOGGLY_SESSION_KEY = 'logglytrackingsession',
     LOGGLY_SESSION_KEY_LENGTH = LOGGLY_SESSION_KEY.length + 1;
 
@@ -49,7 +48,7 @@ function setSendConsoleError(tracker, sendConsoleErrors) {
 }
 
 function setInputUrl(tracker) {
-    tracker.inputUrl = LOGGLY_INPUT_PREFIX + (tracker.logglyCollectorDomain || LOGGLY_COLLECTOR_DOMAIN) + '/inputs/' + tracker.key + LOGGLY_INPUT_SUFFIX;
+    tracker.inputUrl = LOGGLY_INPUT_PREFIX + (tracker.logglyCollectorDomain || LOGGLY_COLLECTOR_DOMAIN) + '/inputs/' + tracker.key
 }
 
 LogglyTracker.prototype = {
@@ -111,11 +110,14 @@ LogglyTracker.prototype = {
     track: function(data) {
         // inject session id
         data.sessionId = this.session_id;
-
+        if (!data.tags) {
+            data.tags = 'http';
+        }
         try {
-            var im = new Image(),
-                q = 'PLAINTEXT=' + encodeURIComponent(JSON.stringify(data));
-            im.src = this.inputUrl + q;
+            var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance 
+            xmlhttp.open('POST', this.inputUrl + '/tags/' + data.tags);
+            xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xmlhttp.send(JSON.stringify(data));
         } catch (ex) {
             if (window && window.console && typeof window.console.log === 'function') {
                 console.log("Failed to log to loggly because of this exception:\n" + ex);
