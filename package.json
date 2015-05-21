@@ -4,7 +4,7 @@
   "homepage": "https://github.com/streamrail/loggly-browserify",
   "description": "CommonJS Loggly module that can be used with browserify",
   "main": "index.js",
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "git://github.com/streamrail/loggly-browserify.git"
   },

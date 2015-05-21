@@ -114,10 +114,8 @@ LogglyTracker.prototype = {
             data.tags = 'http';
         }
         try {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open('POST', 'https://logs-01.loggly.com/inputs/' + this.key + '/tag/'+data.tags+'/__utmsr');
-            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xmlhttp.send(JSON.stringify(data));
+            new Image().src = 'https://logs-01.loggly.com/inputs/' +
+                this.key + '/tag/' + data.tags + '/1*1.gif?PLAINTEXT=' + JSON.stringify(data);
         } catch (ex) {
             if (window && window.console && typeof window.console.log === 'function') {
                 console.log("Failed to log to loggly because of this exception:\n" + ex);
