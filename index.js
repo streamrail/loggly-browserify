@@ -110,12 +110,13 @@ LogglyTracker.prototype = {
     track: function(data) {
         // inject session id
         data.sessionId = this.session_id;
-        if (!data.tags) {
-            data.tags = 'http';
-        }
         try {
-            new Image().src = 'https://logs-01.loggly.com/inputs/' +
-                this.key + '/tag/' + data.tags + '/1*1.gif?PLAINTEXT=' + JSON.stringify(data);
+            var src = 'https://logs-01.loggly.com/inputs/' + this.key;
+            if (data.tags) {
+                src += '/tag/' + data.tags;
+            } 
+            src += '/sr.gif?PLAINTEXT=' + JSON.stringify(data);
+            new Image().src = src;
         } catch (ex) {
             if (window && window.console && typeof window.console.log === 'function') {
                 console.log("Failed to log to loggly because of this exception:\n" + ex);
