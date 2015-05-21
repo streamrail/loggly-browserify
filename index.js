@@ -115,7 +115,7 @@ LogglyTracker.prototype = {
             if (data.tags) {
                 src += '/tag/' + data.tags;
             } 
-            src += '/1*1.gif?PLAINTEXT=' + JSON.stringify(data);
+            src += '/1*1.gif?PLAINTEXT=' + encodeURIComponent(JSON.stringify(data));
             new Image().src = src;
         } catch (ex) {
             if (window && window.console && typeof window.console.log === 'function') {
