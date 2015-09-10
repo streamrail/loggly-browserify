@@ -12,7 +12,7 @@ function uuid() {
     });
 }
 
-function LogglyTracker() {
+function SRLogglyTracker() {
     this.key = false;
     this.sendConsoleErrors = false;
 }
@@ -24,6 +24,7 @@ function setKey(tracker, key) {
 }
 
 function setSendConsoleError(tracker, sendConsoleErrors) {
+    return;
     tracker.sendConsoleErrors = sendConsoleErrors;
 
     if (tracker.sendConsoleErrors === true) {
@@ -51,7 +52,7 @@ function setInputUrl(tracker) {
     tracker.inputUrl = LOGGLY_INPUT_PREFIX + (tracker.logglyCollectorDomain || LOGGLY_COLLECTOR_DOMAIN) + '/inputs/' + tracker.key
 }
 
-LogglyTracker.prototype = {
+SRLogglyTracker.prototype = {
     setSession: function(session_id) {
         if (session_id) {
             this.session_id = session_id;
@@ -143,9 +144,9 @@ LogglyTracker.prototype = {
     }
 };
 
-var existing = window._LTracker;
+var existing = window._SRLTracker;
 
-var tracker = new LogglyTracker();
+var tracker = new SRLogglyTracker();
 
 if (existing && existing.length) {
     var i = 0,
@@ -155,6 +156,6 @@ if (existing && existing.length) {
     }
 }
 
-window._LTracker = tracker; // default global tracker
+window._SRLTracker = tracker; // default global tracker
 
-module.exports = window.LogglyTracker = LogglyTracker; // if others want to instantiate more than one tracker
+module.exports = window.SRLogglyTracker = SRLogglyTracker; // if others want to instantiate more than one tracker
