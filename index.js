@@ -109,8 +109,6 @@ SRLogglyTracker.prototype = {
 
     },
     track: function(data) {
-        // inject session id
-        data.sessionId = this.session_id;
         try {
             var src = 'https://logs-01.loggly.com/inputs/' + this.key;
             if (data.tags) {
