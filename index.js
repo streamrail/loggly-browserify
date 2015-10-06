@@ -111,8 +111,8 @@ SRLogglyTracker.prototype = {
     track: function(data) {
         try {
             var src = 'https://logs-01.loggly.com/inputs/' + this.key;
-            if (data.tags) {
-                src += '/tag/' + data.tags;
+            if (data.p) {
+                src += '/tag/' + data.p;
             } 
             src += '/1*1.gif?PLAINTEXT=' + encodeURIComponent(JSON.stringify(data));
             new Image().src = src;
