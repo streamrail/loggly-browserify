@@ -1,3 +1,7 @@
+var srns = require('streamrail-namespace');
+
+var SRNS = srns();
+
 var LOGGLY_INPUT_PREFIX = 'http' + (('https:' === document.location.protocol ? 's' : '')) + '://',
     LOGGLY_COLLECTOR_DOMAIN = 'logs-01.loggly.com',
     LOGGLY_SESSION_KEY = 'logglytrackingsession',
@@ -142,7 +146,7 @@ SRLogglyTracker.prototype = {
     }
 };
 
-var existing = window._SRLTracker;
+var existing = SRNS._SRLTracker;
 
 var tracker = new SRLogglyTracker();
 
@@ -154,6 +158,6 @@ if (existing && existing.length) {
     }
 }
 
-window._SRLTracker = tracker; // default global tracker
+SRNS._SRLTracker = tracker; // default global tracker
 
-module.exports = window.SRLogglyTracker = SRLogglyTracker; // if others want to instantiate more than one tracker
+module.exports = SRLogglyTracker; // if others want to instantiate more than one tracker

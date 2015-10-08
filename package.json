@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git://github.com/streamrail/loggly-browserify.git"
   },
+  "dependencies": {
+    "streamrail-namespace": "git+ssh://git@github.com:streamrail/streamrail-namespace.git"
+  },
   "author": "orcaman",
   "license": "MIT"
 }
