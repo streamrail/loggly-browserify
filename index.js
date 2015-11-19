@@ -131,6 +131,7 @@ SRLogglyTracker.prototype = {
      *  These cookie functions are not a global utilities.  It is for purpose of this tracker only
      */
     readCookie: function() {
+        return;
         var cookie = document.cookie,
             i = cookie.indexOf(LOGGLY_SESSION_KEY);
         if (i < 0) {
@@ -142,7 +143,7 @@ SRLogglyTracker.prototype = {
         }
     },
     setCookie: function(value) {
-        document.cookie = LOGGLY_SESSION_KEY + '=' + value;
+        // document.cookie = LOGGLY_SESSION_KEY + '=' + value;
     }
 };
 
